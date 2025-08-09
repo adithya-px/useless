@@ -41,13 +41,13 @@ npm run dev
 ### Project Documentation
 
 # Screenshots
-![Screenshot1](<img src="https://raw.githubusercontent.com/adithya-px/useless/refs/heads/main/tape-ninja/src/ss1.png">)
+<img src="https://raw.githubusercontent.com/adithya-px/useless/refs/heads/main/tape-ninja/src/ss1.png">
 *The landing page of the web-app*
 
-![Screenshot2](<img src="https://raw.githubusercontent.com/adithya-px/useless/refs/heads/main/tape-ninja/src/ss2.png">)
+<img src="https://raw.githubusercontent.com/adithya-px/useless/refs/heads/main/tape-ninja/src/ss2.png">
 *usecase example 1*
 
-![Screenshot3](<img src="https://raw.githubusercontent.com/adithya-px/useless/refs/heads/main/tape-ninja/src/ss3.png">)
+<img src="https://raw.githubusercontent.com/adithya-px/useless/refs/heads/main/tape-ninja/src/ss3.png">
 *usecase example 2*
 
 
