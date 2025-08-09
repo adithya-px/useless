@@ -8,15 +8,28 @@ import { X, Package, Plus, Edit3 } from "lucide-react";
 import { Container, allFoods } from "@/data/containers";
 
 // Extended container interface with selected food
+/**
+ * Extended container interface that includes the user's selected food
+ * This allows each container instance to have its own food assignment
+ */
 export interface ContainerWithFood extends Container {
+  /** The food item selected by the user for this specific container */
   selectedFood?: string;
 }
 
+/**
+ * Props interface for the DragDropContainerSelector component
+ */
 interface DragDropContainerSelectorProps {
+  /** Available containers to choose from */
   containers: Container[];
+  /** Currently selected containers with their assigned foods */
   selectedContainers: ContainerWithFood[];
+  /** Callback when container selection changes */
   onContainerSelect: (containers: ContainerWithFood[]) => void;
+  /** Whether the selector modal is open */
   isOpen: boolean;
+  /** Callback to close the selector modal */
   onClose: () => void;
 }
 
@@ -30,19 +43,47 @@ const getRiskColor = (risk: string) => {
   }
 };
 
-export const DragDropContainerSelector = ({ 
-  containers, 
-  selectedContainers, 
+/**
+ * DragDropContainerSelector Component
+ * 
+ * A comprehensive container selection interface that supports:
+ * - Drag and drop functionality for adding containers
+ * - Click-to-add functionality for easier mobile use
+ * - Horizontal scrolling for unlimited container selection
+ * - Food selection per container with full food list
+ * - Visual stacking indicators for duplicate containers
+ * - Real-time container count and type display
+ * 
+ * The component provides an intuitive way to build a packing list
+ * with multiple containers and custom food assignments.
+ */
+export const DragDropContainerSelector = ({
+  containers,
+  selectedContainers,
   onContainerSelect,
   isOpen,
   onClose
 }: DragDropContainerSelectorProps) => {
+  // State for drag and drop functionality
   const [draggedContainer, setDraggedContainer] = useState<Container | null>(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  
+  // State for food editing interface
   const [editingFoodIndex, setEditingFoodIndex] = useState<number | null>(null);
+  
+  // State to prevent click events during drag operations
   const [isDragging, setIsDragging] = useState(false);
+  
+  // Reference to the drop zone for drag and drop events
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Handles the start of a drag operation
+   * Sets up the drag data and prevents click events during drag
+   * 
+   * @param e - Drag event
+   * @param container - Container being dragged
+   */
   const handleDragStart = (e: React.DragEvent, container: Container) => {
     setDraggedContainer(container);
     setIsDragging(true);
@@ -63,12 +104,19 @@ export const DragDropContainerSelector = ({
     setIsDraggingOver(false);
   };
 
+  /**
+   * Handles dropping a container into the selection area
+   * Creates a new ContainerWithFood with default food selection
+   * 
+   * @param e - Drop event
+   */
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDraggingOver(false);
     setIsDragging(false);
     
     if (draggedContainer) {
+      // Create container with default food selection
       const containerWithFood: ContainerWithFood = {
         ...draggedContainer,
         selectedFood: draggedContainer.foods[0] // Default to first food
@@ -79,6 +127,12 @@ export const DragDropContainerSelector = ({
     }
   };
 
+  /**
+   * Updates the food selection for a specific container
+   * 
+   * @param containerIndex - Index of the container to update
+   * @param newFood - New food item to assign
+   */
   const handleFoodChange = (containerIndex: number, newFood: string) => {
     const updatedContainers = [...selectedContainers];
     updatedContainers[containerIndex] = {
@@ -89,6 +143,12 @@ export const DragDropContainerSelector = ({
     setEditingFoodIndex(null);
   };
 
+  /**
+   * Handles clicking on a container to add it (alternative to drag & drop)
+   * Prevents accidental clicks during drag operations
+   * 
+   * @param container - Container to add
+   */
   const handleContainerClick = (container: Container) => {
     // Don't trigger click if we're in the middle of dragging
     if (isDragging) return;
@@ -101,7 +161,11 @@ export const DragDropContainerSelector = ({
     onContainerSelect(newSelectedContainers);
   };
 
-  // Group containers by type and count duplicates
+  /**
+   * Groups selected containers by type and counts duplicates
+   * This enables the stacking UI where multiple containers of the same type
+   * are displayed as a single card with a count badge
+   */
   const groupedContainers = selectedContainers.reduce((acc, container, index) => {
     const existingGroup = acc.find(group => group.container.type === container.type);
     if (existingGroup) {

@@ -15,52 +15,85 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Share, Trophy, Zap, Package, Shield } from "lucide-react";
 import { toast } from "sonner";
 
+/**
+ * Main Calculator component for the SuitcaseSaver Pro app
+ * 
+ * This component handles:
+ * - Container selection via drag & drop or click
+ * - Food selection for each container
+ * - Security level and journey roughness settings
+ * - Airline selection
+ * - Calculation execution and results display
+ * - Sarcastic message generation for weird combinations
+ * 
+ * The component uses a sophisticated calculation engine to determine
+ * optimal tape requirements based on container fragility, user anxiety,
+ * airline brutality, and journey conditions.
+ */
 export const Calculator = () => {
   const navigate = useNavigate();
   
+  // State for user input parameters
   const [inputs, setInputs] = useState<CalculationInputs>({
     containerType: "",
     foodItem: "",
-    securityLevel: 5,
+    securityLevel: 5, // Default to moderate security
     airline: "",
-    journeyRoughness: 5
+    journeyRoughness: 5 // Default to moderate roughness
   });
   
+  // State for selected containers with their chosen foods
   const [selectedContainers, setSelectedContainers] = useState<ContainerWithFood[]>([]);
   
+  // State for calculation results and UI
   const [results, setResults] = useState<CalculationResults | null>(null);
   const [tapeLayers, setTapeLayers] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [isContainerSelectorOpen, setIsContainerSelectorOpen] = useState(false);
 
+  // Derived state for UI convenience
   const selectedContainer = selectedContainers.length > 0 ? selectedContainers[0] : null;
   const availableFoods = selectedContainers.flatMap(c => c.selectedFood ? [c.selectedFood] : c.foods);
 
-  // Generate sarcastic messages for weird combinations
+  /**
+   * Generates sarcastic messages for weird food-container combinations
+   * Returns null if no sarcastic message is available for the combination
+   * 
+   * @param container - The container with its selected food
+   * @returns Sarcastic message or null
+   */
   const getSarcasticMessage = (container: ContainerWithFood): string | null => {
     if (!container.selectedFood) return null;
     const containerMessages = sarcasticMessages[container.type];
     return containerMessages?.[container.selectedFood] || null;
   };
 
-  // Calculate tape layers based on inputs
+  // Calculate and update tape layers based on security level and journey roughness
+  // This provides real-time visual feedback as users adjust their settings
   useEffect(() => {
     const layers = Math.ceil((inputs.securityLevel + inputs.journeyRoughness) / 2.5);
     setTapeLayers(layers);
     
+    // Play tape sound effect when layers increase (for humor)
     if (layers > tapeLayers) {
       playTapeSound();
     }
   }, [inputs.securityLevel, inputs.journeyRoughness]);
 
+  /**
+   * Handles the calculation process for all selected containers
+   * Performs calculations for each container and aggregates the results
+   * Displays comprehensive packing recommendations with humor
+   */
   const handleCalculate = () => {
+    // Validate that all required fields are filled
     if (selectedContainers.length === 0 || !inputs.foodItem || !inputs.airline) {
       toast.error("Please select at least one container and fill in all fields before calculating!");
       return;
     }
 
     try {
-      // Calculate for all selected containers
+      // Calculate packing requirements for each selected container
       const allResults = selectedContainers.map(container => {
         const calculationInputs = {
           ...inputs,
@@ -69,11 +102,13 @@ export const Calculator = () => {
         return calculatePacking(calculationInputs);
       });
       
-      // Combine results (use the first one as base, but aggregate achievements)
+      // Aggregate results from all containers into a single comprehensive report
       const combinedResults = allResults[0];
+      
+      // Combine all achievements from different containers (remove duplicates)
       combinedResults.achievements = [...new Set(allResults.flatMap(r => r.achievements))];
       
-      // Sum up tape lengths
+      // Sum up total tape length needed for all containers
       const totalTapeLength = allResults.reduce((sum, result) => sum + result.tapeLength.cm, 0);
       combinedResults.tapeLength = {
         cm: totalTapeLength,
@@ -81,13 +116,13 @@ export const Calculator = () => {
         uncleArmSpans: Math.round((totalTapeLength / 180) * 10) / 10
       };
       
-      // Average leak probability
+      // Calculate average leak probability across all containers
       const avgLeakProbability = Math.round(
         allResults.reduce((sum, result) => sum + result.leakProbability, 0) / allResults.length
       );
       combinedResults.leakProbability = avgLeakProbability;
       
-      // Max bubble wrap layers
+      // Use the maximum bubble wrap layers needed (worst-case scenario)
       const maxBubbleWrapLayers = Math.max(...allResults.map(r => r.bubbleWrapLayers));
       combinedResults.bubbleWrapLayers = maxBubbleWrapLayers;
       
@@ -99,10 +134,16 @@ export const Calculator = () => {
     }
   };
 
+  /**
+   * Handles sharing calculation results
+   * Uses native sharing API if available, otherwise copies to clipboard
+   * Includes humorous tagline to promote the app
+   */
   const handleShare = () => {
     if (results) {
       const shareText = `I need ${results.tapeLength.cm}cm of tape for my ${inputs.foodItem}! SuitcaseSaver Pro - because hope is not a strategy.`;
       
+      // Try native sharing first, fallback to clipboard
       if (navigator.share) {
         navigator.share({
           title: "SuitcaseSaver Pro Results",
@@ -116,6 +157,13 @@ export const Calculator = () => {
     }
   };
 
+  /**
+   * Returns humorous description for security level
+   * Provides context and entertainment for the user's anxiety level
+   * 
+   * @param level - Security level (0-10)
+   * @returns Humorous description of the security level
+   */
   const getSecurityLevelDescription = (level: number) => {
     if (level <= 2) return "Living dangerously (not recommended)";
     if (level <= 4) return "Playing it safe (boring but effective)";
@@ -124,6 +172,13 @@ export const Calculator = () => {
     return "Apocalypse ready (you might have issues)";
   };
 
+  /**
+   * Returns humorous description for journey roughness
+   * Provides context for expected turbulence and baggage handling
+   * 
+   * @param level - Journey roughness level (0-10)
+   * @returns Humorous description of the journey conditions
+   */
   const getJourneyDescription = (level: number) => {
     if (level <= 2) return "Smooth sailing (rare but nice)";
     if (level <= 4) return "Minor turbulence (standard experience)";

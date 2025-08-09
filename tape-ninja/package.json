@@ -1,7 +1,22 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "suitcase-saver-pro",
+  "description": "The most serious packing calculator you'll ever need - because your curry deserves better than a plastic bag and prayers",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "homepage": "https://github.com/adithya-px/useless.git",
+  "keywords": [
+    "packing",
+    "calculator",
+    "travel",
+    "food",
+    "tape",
+    "kerala",
+    "react",
+    "typescript",
+    "vite"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

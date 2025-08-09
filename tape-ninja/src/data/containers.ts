@@ -1,14 +1,32 @@
- export interface Container {
+ /**
+ * Container interface defining the structure for food storage containers
+ * Each container has specific properties that affect packing calculations
+ */
+export interface Container {
+  /** The name/type of the container (e.g., "Glass Jar", "Plastic Bottle") */
   type: string;
+  /** Risk level that affects tape requirements and leak probability */
   risk: "Low" | "Medium" | "High" | "Very High";
+  /** Specific packing instructions for this container type */
   packing: string;
+  /** Recommended tape type for this container */
   tape: string;
+  /** Default food items that work well with this container */
   foods: string[];
+  /** Image URL for the container (used in UI) */
   image: string;
+  /** Humorous description of the container's characteristics */
   description: string;
 }
 
-// Tape length multiplier (in meters per item)
+/**
+ * Tape length multipliers for each container type (in meters per item)
+ * These values are used in the core calculation formula:
+ * tapeLength = base * quantity * (1 + anxietyFactor/10) * (1 + brutalityIndex/8)
+ * 
+ * Higher values = more tape needed (fragile containers)
+ * Lower values = less tape needed (sturdy containers)
+ */
 export const containerMultipliers: Record<string, number> = {
   "Glass Jar": 1.8,
   "Plastic Bottle": 1.2,
@@ -21,6 +39,11 @@ export const containerMultipliers: Record<string, number> = {
   "Plastic Bag": 2.2
 };
 
+/**
+ * Available containers for food storage
+ * Each container has specific characteristics that affect packing requirements
+ * and comes with humorous descriptions reflecting real-world packing experiences
+ */
 export const containers: Container[] = [
   {
     type: "Glass Jar",
@@ -105,6 +128,11 @@ export const containers: Container[] = [
   }
 ];
 
+/**
+ * Airlines with their brutality indices
+ * Higher brutality index = more aggressive baggage handling = more tape needed
+ * Based on real-world experiences and urban legends
+ */
 export const airlines = [
   { name: "Emirates", brutalityIndex: 3 },
   { name: "Qatar Airways", brutalityIndex: 2 },
@@ -118,7 +146,11 @@ export const airlines = [
   { name: "Budget Airline", brutalityIndex: 10 }
 ];
 
-// All available foods that can be put in any container
+/**
+ * All available foods that can be put in any container
+ * This comprehensive list includes traditional Kerala foods, spices, and other items
+ * Users can mix and match any food with any container (with hilarious results)
+ */
 export const allFoods = [
   "Achhar", "Meen Curry", "Mango Chutney", "Coconut Oil", "Curry Paste",
   "Snacks", "Curries", "Coffee Powder", "Banana Chips", "Jackfruit Chips",
@@ -128,7 +160,11 @@ export const allFoods = [
   "Coriander Seeds", "Cumin Seeds", "Mustard Seeds","Jaggery", "Coconut"
 ];
 
-// Fun extras for calculations
+/**
+ * Available tape types for packing
+ * Randomly selected during calculations to add variety and humor
+ * Each tape type has different characteristics and use cases
+ */
 export const tapeTypes = [
   "Brown Packaging Tape", 
   "Duct Tape", 
@@ -140,6 +176,11 @@ export const tapeTypes = [
   "Gaffer Tape"
 ];
 
+/**
+ * Humorous roast messages that appear in calculation results
+ * These messages provide comedic commentary on the user's packing choices
+ * Randomly selected to add personality and entertainment to the app
+ */
 export const roastMessages = [
   "Your Amma is still not convinced.",
   "This looks like a hostage suitcase.",
@@ -167,6 +208,11 @@ export const roastMessages = [
   "The CIA could learn from you."
 ];
 
+/**
+ * Achievement badges that users can unlock
+ * Awarded based on specific conditions like high security levels,
+ * excessive tape usage, or choosing brutal airlines
+ */
 export const badges = [
   "🛡️ Amma Approved", 
   "🍌 Snack Guardian", 
@@ -180,7 +226,13 @@ export const badges = [
   "🎪 Circus Packer"
 ];
 
-// Sarcastic messages for weird food-container combinations
+/**
+ * Sarcastic messages for weird food-container combinations
+ * These messages appear when users make questionable choices
+ * like putting liquid curry in a plastic bag or spices in a steel container
+ * 
+ * Structure: containerType -> foodItem -> sarcastic message
+ */
 export const sarcasticMessages: Record<string, Record<string, string>> = {
   "Glass Jar": {
     "Idli Batter": "Putting fermented batter in glass? Bold choice. Hope you enjoy cleaning up the explosion.",
