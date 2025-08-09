@@ -51,7 +51,7 @@ export const containers: Container[] = [
     packing: "Wrap in bubble wrap until it looks like a mummy",
     tape: "Brown packing tape",
     foods: ["Achhar", "Meen Curry", "Mango Chutney"],
-    image: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=200&h=200&fit=crop",
+    image: "glass.png",
     description: "The classic choice. Fragile but dignified, like a wine bottle that's been through customs."
   },
   {
@@ -60,7 +60,7 @@ export const containers: Container[] = [
     packing: "Bubble wrap + cling film",
     tape: "Duct tape",
     foods: ["Coconut Oil", "Curry Paste"],
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop",
+    image: "boost.png",
     description: "The workhorse. Not fancy but gets the job done without drama."
   },
   {
@@ -69,7 +69,7 @@ export const containers: Container[] = [
     packing: "Just cling film around the lid",
     tape: "Electrical tape",
     foods: ["Snacks", "Curries"],
-    image: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=200&h=200&fit=crop",
+    image: "tupper.png",
     description: "The responsible choice. Won't cause international incidents."
   },
   {
@@ -78,7 +78,7 @@ export const containers: Container[] = [
     packing: "Aluminium foil + plastic bag",
     tape: "Transparent tape",
     foods: ["Snacks"],
-    image: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=200&h=200&fit=crop",
+    image: "banana.png",
     description: "Traditional meets modern. Eco-friendly until you wrap it in plastic."
   },
   {
@@ -87,7 +87,7 @@ export const containers: Container[] = [
     packing: "Bubble wrap + cloth wrap",
     tape: "Brown packing tape",
     foods: ["Coffee Powder"],
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop",
+    image: "coffee.jpg",
     description: "Because instant coffee is for amateurs."
   },
   {
@@ -96,7 +96,7 @@ export const containers: Container[] = [
     packing: "Double bagging",
     tape: "Transparent tape",
     foods: ["Banana Chips", "Jackfruit Chips"],
-    image: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=200&h=200&fit=crop",
+    image: "plastic.jpg",
     description: "The snack smuggler's best friend."
   },
   {
@@ -105,7 +105,7 @@ export const containers: Container[] = [
     packing: "Tape all seams",
     tape: "Brown packing tape",
     foods: ["Pappadams"],
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop",
+    image: "box.jpg",
     description: "The unsung hero. Simple and effective."
   },
   {
@@ -114,7 +114,7 @@ export const containers: Container[] = [
     packing: "Just cling film",
     tape: "Electrical tape",
     foods: ["Pickles", "Payasam Mix"],
-    image: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=200&h=200&fit=crop",
+    image: "steel.jpeg",
     description: "The indestructible option. Survives everything except your mother's disappointment."
   },
   {
